@@ -6,18 +6,31 @@ import { AuthGuard } from './middlewares/auth.middleware';
 import { JwtService } from './jwt/jwt.service';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
+import { PermissionEntity } from './entities/permission.entity';
+import { RoleEntity } from './entities/roles.entity';
+import { UserEntity } from './entities/user.entity';
+import { RolesController } from './roles/roles.controller';
+import { RolesService } from './roles/roles.service';
+import { PermisosService } from './permisos/permisos.service';
+import { PermisosController } from './permisos/permisos.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      database: 'db.sql',
-      entities,
-      type: 'sqlite',
-      synchronize: true,
-    }),
+        type: 'postgres',
+        host: 'localhost',
+        port: 5436,
+        database: 'usuarios',
+        username: 'ignacio',
+        password: 'ignacio',
+        synchronize: true,
+        entities,
+      }),
     TypeOrmModule.forFeature(entities),
-  ],
-  controllers: [AppController,UsersController],
-  providers: [AuthGuard, JwtService, UsersService],
+    PermissionEntity,
+    RoleEntity,
+    UserEntity],
+  controllers: [AppController,UsersController, RolesController, PermisosController],
+  providers: [AuthGuard, JwtService, UsersService, RolesService, PermisosService],
 })
 export class AppModule {}

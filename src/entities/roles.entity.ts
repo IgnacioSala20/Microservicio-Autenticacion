@@ -8,10 +8,11 @@ export class RoleEntity extends BaseEntity{
     id: number;
     @Column()
     name: string;
-    @ManyToMany(() => PermissionEntity, permission => permission.role)
-    @JoinTable()
-    permission: PermissionEntity[];
 
-    @OneToMany(() => UserEntity, user => user.id)
-    user: UserEntity[];
+    @ManyToMany(() => PermissionEntity, permission => permission.roles)
+    @JoinTable()
+    permissions: PermissionEntity[];
+
+    @OneToMany(() => UserEntity, user => user.role)
+    users: UserEntity[];
 }

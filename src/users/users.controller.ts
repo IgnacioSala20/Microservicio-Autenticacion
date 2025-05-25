@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -14,10 +15,15 @@ import { Request } from 'express';
 import { AuthGuard } from '../middlewares/auth.middleware';
 import { RequestWithUser } from 'src/interfaces/request-user';
 import { Permissions } from 'src/middlewares/decorators/permissions.decorator';
+import { UserEntity } from 'src/entities/user.entity';
+import { BaseController } from 'src/base-service/base-controller.controller';
 
-@Controller('')
-export class UsersController {
-  constructor(private service: UsersService) {}
+@Controller('users')
+export class UsersController extends BaseController<UserEntity> {
+  constructor(protected readonly service:UsersService){
+          super(service);
+  }
+  
 
   @UseGuards(AuthGuard)
   @Get('me')
@@ -37,6 +43,7 @@ export class UsersController {
     return this.service.register(body);
   }
 
+  // Esta ruta es para verificar si el usuario tiene un permiso específico
   @UseGuards(AuthGuard)
   @Get('can-do/:permission')
   canDo(
@@ -46,10 +53,23 @@ export class UsersController {
     return this.service.canDo(request.user, permission);
   }
 
+  // Esto es para generar un nuevo access token a partir de un refresh token
   @Get('refresh-token')
   refreshToken(@Req() request: Request) {
     return this.service.refreshToken(
       request.headers['refresh-token'] as string,
     );
   }
+
+  @UseGuards(AuthGuard)
+  @Patch(':id/asignar-rol')
+  @Permissions(['editar usuarios'])
+  asignarRol(
+    @Param('id') userId: number,
+    @Body('rol') rol: string,
+    @Req() request: RequestWithUser,
+  ) {
+    return this.service.asignarRol(userId, rol, request.user);
+  }
+
 }

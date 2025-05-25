@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
   HttpException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { LoginDTO } from 'src/interfaces/login.dto';
@@ -10,12 +12,24 @@ import { UserEntity } from '../entities/user.entity';
 import { hashSync, compareSync } from 'bcrypt';
 import { JwtService } from 'src/jwt/jwt.service';
 import * as dayjs from 'dayjs';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { RoleEntity } from 'src/entities/roles.entity';
+import { BaseService } from 'src/base-service/base-service.service';
 
 @Injectable()
-export class UsersService {
-  repository = UserEntity;
-  constructor(private jwtService: JwtService) {}
+export class UsersService extends BaseService<UserEntity> {
+    constructor(
+    private jwtService: JwtService,
 
+    @InjectRepository(UserEntity)
+    protected readonly service: Repository<UserEntity>,
+
+    @InjectRepository(RoleEntity)
+    private readonly roleRepository: Repository<RoleEntity>,
+  ) {
+    super(service);
+  }
   async refreshToken(refreshToken: string) {
     return this.jwtService.refreshToken(refreshToken);
   }
@@ -57,6 +71,43 @@ export class UsersService {
     };
   }
   async findByEmail(email: string): Promise<UserEntity> {
-    return await this.repository.findOneBy({ email });
+  return await this.repository.findOne({
+    where: { email },
+    relations: {
+      role: {
+        permissions: true,
+      },
+    },
+  });
+}
+
+  async findById(id: number): Promise<UserEntity> {
+    return await this.repository.findOneBy({ id });
   }
+
+  async asignarRol(userId: number, rolNombre: string, adminUser: UserEntity) {
+  const user = await this.repository.findOne({ where: { id: userId }, relations: ['role'] });
+  if (!user) {
+    throw new NotFoundException('Usuario no encontrado');
+  }
+
+  const rol = await this.roleRepository.findOne({ where: { name: rolNombre } });
+  if (!rol) {
+    throw new NotFoundException('Rol no encontrado');
+  }
+
+  // Evitar que un admin se modifique a sí mismo (opcional pero recomendado)
+  if (user.id === adminUser.id) {
+    throw new BadRequestException('No podés cambiar tu propio rol');
+  }
+  user.role = rol;
+  await this.repository.save(user);
+
+  return {
+    message: `Rol asignado correctamente a ${user.email}`,
+    userId: user.id,
+    nuevoRol: rol.name,
+  };
+}
+
 }
