@@ -34,8 +34,10 @@ export class UsersService extends BaseService<UserEntity> {
     return this.jwtService.refreshToken(refreshToken);
   }
   canDo(user: UserI, permission: string): boolean {
-    const result = user.permissionCodes.includes(permission);
-    if (!result) {
+    const permissions = permission.split(',');
+    const userPermissions = user.permissionCodes.map(p => p.toUpperCase());
+    const hasPermission = permissions.some(p => userPermissions.includes(p.toUpperCase()));
+    if (!hasPermission) {
       throw new UnauthorizedException();
     }
     return true;
@@ -108,6 +110,5 @@ export class UsersService extends BaseService<UserEntity> {
     userId: user.id,
     nuevoRol: rol.name,
   };
-}
-
+  }
 }

@@ -24,7 +24,6 @@ export class UsersController extends BaseController<UserEntity> {
           super(service);
   }
   
-
   @UseGuards(AuthGuard)
   @Get('me')
   me(@Req() req: RequestWithUser) {
@@ -71,5 +70,4 @@ export class UsersController extends BaseController<UserEntity> {
   ) {
     return this.service.asignarRol(userId, rol, request.user);
   }
-
 }

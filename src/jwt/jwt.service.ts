@@ -8,40 +8,42 @@ export class JwtService {
   config = {
     auth: {
       secret: 'authSecret',
-      expiresIn: '15m',
+      expiresIn: '1h',
     },
     refresh: {
       secret: 'refreshSecret',
       expiresIn: '1d',
     },
   };
-  generateToken(
-    payload: { email: string },
-    type: 'refresh' | 'auth' = 'auth',
-  ): string {
-    return sign(payload, this.config[type].secret, {
+  generateToken(payload: { email: string }, type: 'refresh' | 'auth' = 'auth'): string {
+    const token = sign(payload, this.config[type].secret, {
       expiresIn: this.config[type].expiresIn,
     });
+    return token;
   }
-
-  refreshToken(refreshToken: string):{accessToken:string,refreshToken:string} {
+  refreshToken(refreshToken: string): { accessToken: string, refreshToken: string } {
     try {
-      const payload = this.getPayload(refreshToken,'refresh')
-      // Obtiene el tiempo restante en minutos hasta la expiración
+      const payload = this.getPayload(refreshToken, 'refresh');  
       const timeToExpire = dayjs.unix(payload.exp).diff(dayjs(), 'minute');
       return {
         accessToken: this.generateToken({ email: payload.email }),
-        refreshToken:
-          timeToExpire < 20
-            ? this.generateToken({ email: payload.email }, 'refresh')
-            : refreshToken
+        refreshToken: timeToExpire < 20
+          ? this.generateToken({ email: payload.email }, 'refresh')
+          : refreshToken
       };
     } catch (error) {
       throw new UnauthorizedException();
     }
   }
+  
 
   getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload {
-    return verify(token, this.config[type].secret);
+    try {
+      const decoded = verify(token, this.config[type].secret);
+      return decoded;
+    } catch (error) {
+      throw new UnauthorizedException('Token inválido');
+    }
   }
+  
 }

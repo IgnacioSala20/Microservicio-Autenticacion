@@ -14,7 +14,7 @@ export class UserEntity extends BaseEntity implements UserI {
   
   @ManyToOne(() => RoleEntity, (role) => role.users)
   role: RoleEntity;
-
+  permissions: any;
 
   get permissionCodes(): string[] {
     if (!this.role || !this.role.permissions) return [];

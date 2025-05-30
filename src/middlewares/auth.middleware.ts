@@ -32,17 +32,15 @@ export class AuthGuard implements CanActivate {
       //AGREGAR LOGICA PARA USAR LOS PERMISOS QUE VIENEN EN EL DECORADOR
       const requiredPermissions = this.reflector.get(Permissions, context.getHandler());
       // Si hay permisos requeridos, los validamos
+
       if (requiredPermissions && requiredPermissions.length > 0) {
-        const hasAll = requiredPermissions.every(p =>
-          user.permissionCodes.includes(p),
+        const hasPermission = user.permissionCodes.some(
+          code => requiredPermissions.includes(code.toUpperCase())
         );
-        if (!hasAll) {
-          throw new UnauthorizedException(
-            'No tenés permisos suficientes para acceder',
-          );
+        if (!hasPermission) {
+          throw new UnauthorizedException('No tienes permiso para acceder a este recurso');
         }
-      }
-      
+      }      
       return true;
     } catch (error) {
       throw new UnauthorizedException(error?.message);

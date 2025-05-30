@@ -6,8 +6,6 @@ import { FindOptionsWhere } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Request } from 'express';
-import { Permissions } from 'src/middlewares/decorators/permissions.decorator';
-import { AuthGuard } from 'src/middlewares/auth.middleware';
 
 export class BaseController<T extends BaseEntity> {  // Definir que T extiende BaseEntity
     constructor(protected readonly service: BaseService<T>) {}  // Inyectamos el servicio BaseService para el tipo específico
@@ -15,8 +13,6 @@ export class BaseController<T extends BaseEntity> {  // Definir que T extiende B
     create(@Body() data: T) {
         return this.service.create(data);  
     }
-    @UseGuards(AuthGuard)
-    @Permissions(['ver usuarios'])
     @Get('all')
     getAll() {
         return this.service.find(); // sin paginación
