@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate {
       const user = await this.usersService.findByEmail(payload.email);
       request.user = user;
       const requiredPermissions = this.reflector.get(Permissions, context.getHandler());
-
       if (requiredPermissions && requiredPermissions.length > 0) {
         const hasPermission = user.permissionCodes.some(
           code => requiredPermissions.includes(code.toUpperCase())

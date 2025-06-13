@@ -62,7 +62,7 @@ export class UsersController extends BaseController<UserEntity> {
 
   @UseGuards(AuthGuard)
   @Patch(':id/asignar-rol')
-  @Permissions(['editar usuarios'])
+  @Permissions(['asignar_rol'])
   asignarRol(
     @Param('id') userId: number,
     @Body('rol') rol: string,

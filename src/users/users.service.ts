@@ -48,10 +48,25 @@ export class UsersService extends BaseService<UserEntity> {
       const user = new UserEntity();
       Object.assign(user, body);
       user.password = hashSync(user.password, 10);
+
+      //contar cuántos usuarios existen para ver que no hay ningunos
+      const totalUsuarios = await this.repository.count();
+
+      if (totalUsuarios === 0) {
+        //Si es el primer usuario que se va a crear, hay que modificar este where y poner el nombre del rol que se le quiere asignar
+        //de tal forma que el primer usuario sea un superadmin o el que fuese y a partir de ahi tiene todos los permisos
+        const rolSuperAdmin = await this.roleRepository.findOne({ where: { name: "NOMBRE_ROL" } });
+        if (!rolSuperAdmin) {
+          throw new BadRequestException('El rol buscado no existe');
+        }
+        user.role = rolSuperAdmin;
+      }
+      console.log("Usuario a registrar:", user);
       await this.repository.save(user);
+
       return { status: 'created' };
     } catch (error) {
-      throw new HttpException('Error de creacion', 500);
+      throw new HttpException('Error de creación: ' + error.message, 500);
     }
   }
 
@@ -73,42 +88,37 @@ export class UsersService extends BaseService<UserEntity> {
     };
   }
   async findByEmail(email: string): Promise<UserEntity> {
-  return await this.repository.findOne({
-    where: { email },
-    relations: {
-      role: {
-        permissions: true,
+    return await this.repository.findOne({
+      where: { email },
+      relations: {
+        role: {
+          permissions: true,
+        },
       },
-    },
-  });
-}
-
+    });
+  } 
   async findById(id: number): Promise<UserEntity> {
     return await this.repository.findOneBy({ id });
   }
 
   async asignarRol(userId: number, rolNombre: string, adminUser: UserEntity) {
-  const user = await this.repository.findOne({ where: { id: userId }, relations: ['role'] });
-  if (!user) {
-    throw new NotFoundException('Usuario no encontrado');
-  }
+    const user = await this.repository.findOne({ where: { id: userId }, relations: ['role'] });
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
 
-  const rol = await this.roleRepository.findOne({ where: { name: rolNombre } });
-  if (!rol) {
-    throw new NotFoundException('Rol no encontrado');
-  }
+    const rol = await this.roleRepository.findOne({ where: { name: rolNombre } });
+    if (!rol) {
+      throw new NotFoundException('Rol no encontrado');
+    }
 
-  // Evitar que un admin se modifique a sí mismo (opcional pero recomendado)
-  if (user.id === adminUser.id) {
-    throw new BadRequestException('No podés cambiar tu propio rol');
-  }
-  user.role = rol;
-  await this.repository.save(user);
+    //Aca evitamos que un admin se modifique a sí mismo
+    if (user.id === adminUser.id) {
+      throw new BadRequestException('No podés cambiar tu propio rol');
+    }
+    user.role = rol;
+    await this.repository.save(user);
 
-  return {
-    message: `Rol asignado correctamente a ${user.email}`,
-    userId: user.id,
-    nuevoRol: rol.name,
-  };
-  }
+    return {message: `Rol asignado correctamente a ${user.email}`,userId: user.id,nuevoRol: rol.name,};
+    }
 }
