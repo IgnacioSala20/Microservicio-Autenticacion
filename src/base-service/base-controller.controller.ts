@@ -37,8 +37,12 @@ export class BaseController<T extends BaseEntity> {  // Definir que T extiende B
         return this.service.findOne({ where: { id } as FindOptionsWhere<T> });
     }
     @Put(':id')
-    update(@Param('id') id: number, @Body() data: QueryDeepPartialEntity<T>) { 
-        return this.service.update(id, data); 
+    update(@Param('id') id: number, @Body() data: T) { 
+        return this.service.replace(id, data); 
+    }
+    @Patch(':id')
+    updatePartial(@Param('id') id: number, @Body() data: QueryDeepPartialEntity<T>) {
+        return this.service.updatePartial(id, data);
     }
     @Delete(':id')
     delete(@Param('id') id: number) {

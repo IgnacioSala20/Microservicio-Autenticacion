@@ -29,9 +29,7 @@ export class AuthGuard implements CanActivate {
       const payload = this.jwtService.getPayload(token);
       const user = await this.usersService.findByEmail(payload.email);
       request.user = user;
-      //AGREGAR LOGICA PARA USAR LOS PERMISOS QUE VIENEN EN EL DECORADOR
       const requiredPermissions = this.reflector.get(Permissions, context.getHandler());
-      // Si hay permisos requeridos, los validamos
 
       if (requiredPermissions && requiredPermissions.length > 0) {
         const hasPermission = user.permissionCodes.some(

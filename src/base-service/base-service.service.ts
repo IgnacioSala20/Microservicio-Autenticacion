@@ -29,11 +29,16 @@ export abstract class BaseService<T extends BaseEntity> {
     return this.repository.save(entity);
     }
 
-    async update(
-    id: string | number,
-    entity: QueryDeepPartialEntity<T>,
-    ): Promise<UpdateResult> {
-    return this.repository.update(id, entity);
+    async replace(id: string | number, entity: DeepPartial<T>): Promise<T> {
+        const existingEntity = await this.repository.findOneBy({ id } as FindOptionsWhere<T>);
+        if (!existingEntity) {
+            throw new Error(`Entidad con id ${id} no encontrado`);
+        }
+        const updatedEntity = { ...existingEntity, ...entity };
+        return this.repository.save(updatedEntity);
+    }
+    async updatePartial(id: string | number, entity: QueryDeepPartialEntity<T>,): Promise<UpdateResult> {
+        return this.repository.update(id, entity);
     }
 
     //Borrado logico! , no contempla borrado total
