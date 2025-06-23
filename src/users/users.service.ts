@@ -35,8 +35,8 @@ export class UsersService extends BaseService<UserEntity> {
   }
   canDo(user: UserI, permission: string): boolean {
     const permissions = permission.split(',');
-    const userPermissions = user.permissionCodes.map(p => p.toUpperCase());
-    const hasPermission = permissions.some(p => userPermissions.includes(p.toUpperCase()));
+    const userPermissions = user.permissionCodes.map(p => p.toLowerCase());
+    const hasPermission = permissions.some(p => userPermissions.includes(p.toLowerCase()));
     if (!hasPermission) {
       throw new UnauthorizedException();
     }
@@ -45,17 +45,19 @@ export class UsersService extends BaseService<UserEntity> {
 
   async register(body: RegisterDTO) {
     try {
+      console.log("voy por aca ahora")
       const user = new UserEntity();
       Object.assign(user, body);
       user.password = hashSync(user.password, 10);
 
       //contar cuántos usuarios existen para ver que no hay ningunos
       const totalUsuarios = await this.repository.count();
-
+      console.log("total:",totalUsuarios)
       if (totalUsuarios === 0) {
         //Si es el primer usuario que se va a crear, hay que modificar este where y poner el nombre del rol que se le quiere asignar
         //de tal forma que el primer usuario sea un superadmin o el que fuese y a partir de ahi tiene todos los permisos
-        const rolSuperAdmin = await this.roleRepository.findOne({ where: { name: "NOMBRE_ROL" } });
+        const rolSuperAdmin = await this.roleRepository.findOne({ where: { name: "Administrador" } });
+        console.log(rolSuperAdmin)
         if (!rolSuperAdmin) {
           throw new BadRequestException('El rol buscado no existe');
         }
@@ -66,12 +68,15 @@ export class UsersService extends BaseService<UserEntity> {
 
       return { status: 'created' };
     } catch (error) {
+      console.error(error)
       throw new HttpException('Error de creación: ' + error.message, 500);
     }
   }
 
   async login(body: LoginDTO) {
+    console.log("entro aca primero")
     const user = await this.findByEmail(body.email);
+    console.log("encuentro el usuario:", user)
     if (user == null) {
       throw new UnauthorizedException();
     }

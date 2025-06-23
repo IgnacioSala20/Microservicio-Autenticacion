@@ -39,6 +39,7 @@ export class UsersController extends BaseController<UserEntity> {
 
   @Post('register')
   register(@Body() body: RegisterDTO) {
+    console.log("llego aqui")
     return this.service.register(body);
   }
 
@@ -53,7 +54,7 @@ export class UsersController extends BaseController<UserEntity> {
   }
 
   // Esto es para generar un nuevo access token a partir de un refresh token
-  @Get('refresh-token')
+  @Post('refresh-token')
   refreshToken(@Req() request: Request) {
     return this.service.refreshToken(
       request.headers['refresh-token'] as string,
