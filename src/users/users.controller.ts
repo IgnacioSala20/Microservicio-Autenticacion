@@ -39,7 +39,6 @@ export class UsersController extends BaseController<UserEntity> {
 
   @Post('register')
   register(@Body() body: RegisterDTO) {
-    console.log("llego aqui")
     return this.service.register(body);
   }
 

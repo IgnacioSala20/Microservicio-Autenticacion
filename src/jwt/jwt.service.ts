@@ -8,7 +8,7 @@ export class JwtService {
   config = {
     auth: {
       secret: 'authSecret',
-      expiresIn: '15m',
+      expiresIn: '1m',
     },
     refresh: {
       secret: 'refreshSecret',
