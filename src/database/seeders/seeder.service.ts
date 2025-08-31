@@ -10,9 +10,9 @@ export class SeederService {
     ) {}
 
     async seedAll() {
-        console.log('🚀 Iniciando seeding...');
+        console.log('Iniciando seeding');
         await this.roleSeeder.run();
         await this.permisosSeeder.run();
-        console.log('✅ Seeding completo');
+        console.log('Seeding completo');
     }
 }
