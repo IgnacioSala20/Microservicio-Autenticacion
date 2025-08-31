@@ -8,10 +8,9 @@ import {
 import { LoginDTO } from 'src/interfaces/login.dto';
 import { RegisterDTO } from 'src/interfaces/register.dto';
 import { UserI } from 'src/interfaces/user.interface';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../../entities/user.entity';
 import { hashSync, compareSync } from 'bcrypt';
 import { JwtService } from 'src/jwt/jwt.service';
-import * as dayjs from 'dayjs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RoleEntity } from 'src/entities/roles.entity';

@@ -9,10 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { LoginDTO } from '../interfaces/login.dto';
-import { RegisterDTO } from '../interfaces/register.dto';
+import { LoginDTO } from '../../interfaces/login.dto';
+import { RegisterDTO } from '../../interfaces/register.dto';
 import { Request } from 'express';
-import { AuthGuard } from '../middlewares/auth.middleware';
+import { AuthGuard } from '../../middlewares/auth.middleware';
 import { RequestWithUser } from 'src/interfaces/request-user';
 import { Permissions } from 'src/middlewares/decorators/permissions.decorator';
 import { UserEntity } from 'src/entities/user.entity';
