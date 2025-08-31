@@ -1,10 +1,4 @@
-import {
-  BadRequestException,
-  HttpException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { LoginDTO } from 'src/interfaces/login.dto';
 import { RegisterDTO } from 'src/interfaces/register.dto';
 import { UserI } from 'src/interfaces/user.interface';
@@ -107,7 +101,6 @@ export class UsersService extends BaseService<UserEntity> {
     if (!rol) {
       throw new NotFoundException('Rol no encontrado');
     }
-
     //Aca evitamos que un admin se modifique a sí mismo
     if (user.id === adminUser.id) {
       throw new BadRequestException('No podés cambiar tu propio rol');

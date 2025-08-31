@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { LoginDTO } from '../../interfaces/login.dto';
 import { RegisterDTO } from '../../interfaces/register.dto';
@@ -21,7 +12,7 @@ import { BaseController } from 'src/base-service/base-controller.controller';
 @Controller('users')
 export class UsersController extends BaseController<UserEntity> {
   constructor(protected readonly service:UsersService){
-          super(service);
+    super(service);
   }
   
   @UseGuards(AuthGuard)
