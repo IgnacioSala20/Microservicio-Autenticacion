@@ -8,7 +8,7 @@ export class UserEntity extends BaseEntity implements UserI {
   id: number;
 
   @Column()
-  nombre: string;
+  name: string;
 
   @Column()
   lastname: string
