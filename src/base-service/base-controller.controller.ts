@@ -1,7 +1,7 @@
 
-import { Body, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
-import { BaseService } from './base-service.service';  // Importar el servicio base
-import { BaseEntity } from '../entities/base.entity';  // Importar BaseEntity (aunque en este caso no es necesario en el controlador, es para ilustrar)
+import { Body, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, Req } from '@nestjs/common';
+import { BaseService } from './base-service.service';
+import { BaseEntity } from '../entities/base.entity';
 import { FindOptionsWhere } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { Pagination } from 'nestjs-typeorm-paginate';
@@ -13,9 +13,10 @@ export class BaseController<T extends BaseEntity> {  // Definir que T extiende B
     create(@Body() data: T) {
         return this.service.create(data);  
     }
+
     @Get('all')
     getAll() {
-        return this.service.find(); // sin paginación
+        return this.service.find();
     }
 
     @Get()
@@ -47,10 +48,6 @@ export class BaseController<T extends BaseEntity> {  // Definir que T extiende B
     @Delete(':id')
     delete(@Param('id') id: number) {
         return this.service.delete(id);  
-    }
-    @Patch(':id/restore')
-    restore(@Param('id') id: number) {
-        return this.service.restore(id); 
     }
 }
 
