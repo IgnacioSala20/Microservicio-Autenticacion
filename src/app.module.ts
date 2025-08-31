@@ -4,15 +4,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { entities } from './entities';
 import { AuthGuard } from './middlewares/auth.middleware';
 import { JwtService } from './jwt/jwt.service';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
+import { UsersController } from './resource/users/users.controller';
+import { UsersService } from './resource/users/users.service';
 import { PermissionEntity } from './entities/permission.entity';
 import { RoleEntity } from './entities/roles.entity';
 import { UserEntity } from './entities/user.entity';
-import { RolesController } from './roles/roles.controller';
-import { RolesService } from './roles/roles.service';
-import { PermisosService } from './permisos/permisos.service';
-import { PermisosController } from './permisos/permisos.controller';
+import { RolesController } from './resource/roles/roles.controller';
+import { RolesService } from './resource/roles/roles.service';
+import { PermisosService } from './resource/permisos/permisos.service';
+import { PermisosController } from './resource/permisos/permisos.controller';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { PermisosController } from './permisos/permisos.controller';
         database: 'usuarios',
         username: 'ignacio',
         password: 'ignacio',
-        synchronize: true,
+        synchronize: false,
         entities,
       }),
     TypeOrmModule.forFeature(entities),
