@@ -110,4 +110,13 @@ export class UsersService extends BaseService<UserEntity> {
 
     return {message: `Rol asignado correctamente a ${user.email}`,userId: user.id,nuevoRol: rol.name,};
     }
+  async cambiarContrasena(userId: number, contrasena: string) {
+    const user = await this.repository.findOneBy({ id: userId });
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+    user.password = hashSync(contrasena, 10);
+    await this.repository.save(user);
+    return { message: 'Contraseña cambiada correctamente' };
+  }
 }

@@ -61,4 +61,12 @@ export class UsersController extends BaseController<UserEntity> {
   ) {
     return this.service.asignarRol(userId, rol, request.user);
   }
+
+  @Patch(':id/cambiar-contrasena')
+  cambiarContrasena(
+    @Param('id') userId: number,
+    @Body('contrasena') contrasena: string,
+  ) {
+    return this.service.cambiarContrasena(userId, contrasena);
+  }
 }
