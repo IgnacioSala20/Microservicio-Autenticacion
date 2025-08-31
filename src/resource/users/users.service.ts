@@ -8,12 +8,12 @@ import {
 import { LoginDTO } from 'src/interfaces/login.dto';
 import { RegisterDTO } from 'src/interfaces/register.dto';
 import { UserI } from 'src/interfaces/user.interface';
-import { UserEntity } from '../../entities/user.entity';
+import { UserEntity } from '../../database/core/user.entity';
 import { hashSync, compareSync } from 'bcrypt';
 import { JwtService } from 'src/jwt/jwt.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RoleEntity } from 'src/entities/roles.entity';
+import { RoleEntity } from 'src/database/core/roles.entity';
 import { BaseService } from 'src/base-service/base-service.service';
 
 @Injectable()

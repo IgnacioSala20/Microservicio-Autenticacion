@@ -1,7 +1,7 @@
 
 import { Body, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, Req } from '@nestjs/common';
 import { BaseService } from './base-service.service';
-import { BaseEntity } from '../entities/base.entity';
+import { BaseEntity } from '../database/base.entity';
 import { FindOptionsWhere } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { Pagination } from 'nestjs-typeorm-paginate';

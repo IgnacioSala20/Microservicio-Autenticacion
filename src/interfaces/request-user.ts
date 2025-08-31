@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { UserEntity } from 'src/entities/user.entity';
+import { UserEntity } from 'src/database/core/user.entity';
 /*
 Esto se usa cuando querés extender el tipo de Request de Express, 
 para incluir un campo adicional user.

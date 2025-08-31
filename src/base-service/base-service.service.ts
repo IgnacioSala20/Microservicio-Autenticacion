@@ -7,7 +7,7 @@ import {
     UpdateResult,
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { BaseEntity } from '../entities/base.entity';  // Importamos BaseEntity definido por nosotros
+import { BaseEntity } from '../database/base.entity';  // Importamos BaseEntity definido por nosotros
 import { paginate, IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 
 export abstract class BaseService<T extends BaseEntity> {

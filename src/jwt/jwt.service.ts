@@ -8,7 +8,7 @@ export class JwtService {
   config = {
     auth: {
       secret: 'authSecret',
-      expiresIn: '1m',
+      expiresIn: '15m',
     },
     refresh: {
       secret: 'refreshSecret',
@@ -40,7 +40,10 @@ export class JwtService {
   getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload {
     try {
       const decoded = verify(token, this.config[type].secret);
-      return decoded;
+      if (typeof decoded === 'string') {
+        throw new UnauthorizedException('Token inválido');
+      }
+      return decoded as Payload;
     } catch (error) {
       throw new UnauthorizedException('Token inválido');
     }

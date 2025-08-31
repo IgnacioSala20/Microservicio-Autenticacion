@@ -15,7 +15,7 @@ import { Request } from 'express';
 import { AuthGuard } from '../../middlewares/auth.middleware';
 import { RequestWithUser } from 'src/interfaces/request-user';
 import { Permissions } from 'src/middlewares/decorators/permissions.decorator';
-import { UserEntity } from 'src/entities/user.entity';
+import { UserEntity } from 'src/database/core/user.entity';
 import { BaseController } from 'src/base-service/base-controller.controller';
 
 @Controller('users')

@@ -1,4 +1,4 @@
-import { UserI } from '../interfaces/user.interface';
+import { UserI } from '../../interfaces/user.interface';
 import { BaseEntity, Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { RoleEntity } from './roles.entity';
 
@@ -8,7 +8,7 @@ export class UserEntity extends BaseEntity implements UserI {
   id: number;
 
   @Column()
-  name: string;
+  nombre: string;
 
   @Column()
   lastname: string

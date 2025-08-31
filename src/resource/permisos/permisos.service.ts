@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/base-service/base-service.service';
-import { PermissionEntity } from 'src/entities/permission.entity';
+import { PermissionEntity } from 'src/database/core/permission.entity';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 
 @Injectable()
