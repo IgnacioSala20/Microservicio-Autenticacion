@@ -21,7 +21,9 @@
     "migration:generate": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/config/data-source.ts",
     "migration:create": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -d ./src/config/data-source.ts",
     "migration:run": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/config/data-source.ts",
-    "migration:revert": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/config/data-source.ts"
+    "migration:revert": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/config/data-source.ts",
+    "seed": "ts-node -r tsconfig-paths/register src/database/seeders/seed.ts"
+
   },
   "dependencies": {
     "@nestjs/common": "^11.1.1",

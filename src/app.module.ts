@@ -14,6 +14,8 @@ import { UsersModule } from './resource/users/users.module';
 import { JwtModule } from './jwt/jwt.module';
 import { RolesModule } from './resource/roles/roles.module';
 import { PermisosModule } from './resource/permisos/permisos.module';
+import { RoleSeeder } from './database/seeders/role.seeder';
+import { SeedModule } from './database/seeders/seeder.module';
 
 @Module({
   imports: [
@@ -30,13 +32,14 @@ import { PermisosModule } from './resource/permisos/permisos.module';
         database: configService.get<string>('DATABASE_NAME'),
         synchronize: false,
         autoLoadEntities: true,
-        entities: [__dirname + '/database/core/**/*.entity{.ts,.js}'],
+        entities: [__dirname + '/database/core/*.entity{.ts,.js}'],
       }),
     }),
     UsersModule,
     JwtModule,
     RolesModule,
     PermisosModule,
+    SeedModule,
     ],
   controllers: [AppController],
   providers: [AuthGuard],
