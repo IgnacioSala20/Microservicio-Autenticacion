@@ -57,3 +57,12 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+
+## Para migraciones se ejecuta en este formato 
+```bash
+$ npm run migration:generate (opcional la ruta de destino ./src/database/migrations/CreateUser)
+
+$ npm run migration:run (ruta del archivo migrado)
+
+```
