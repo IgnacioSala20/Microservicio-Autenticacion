@@ -17,9 +17,7 @@ export class RoleSeeder {
         const permisos = await this.permisoRepo.find();
 
         const roles = [
-        { name: 'Admin', permissions: permisos },
-        { name: 'User', permissions: permisos.filter(p => p.codigo === 'USR_CREATE') },
-        { name: 'Manager', permissions: permisos.filter(p => p.codigo !== 'USR_DELETE') },
+        { name: 'Superadmin', permissions: permisos },
         ];
 
         for (const roleData of roles) {

@@ -7,12 +7,6 @@ import { BaseEntity } from '../base.entity';
 export class UserEntity extends BaseEntity implements UserI {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  name: string;
-
-  @Column()
-  lastname: string
   
   @Index({unique:true})
   @Column()

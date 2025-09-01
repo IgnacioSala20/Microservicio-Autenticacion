@@ -2,19 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthGuard } from './middlewares/auth.middleware';
-import { JwtService } from './jwt/jwt.service';
-import { UsersController } from './resource/users/users.controller';
-import { UsersService } from './resource/users/users.service';
-import { RolesController } from './resource/roles/roles.controller';
-import { RolesService } from './resource/roles/roles.service';
-import { PermisosService } from './resource/permisos/permisos.service';
-import { PermisosController } from './resource/permisos/permisos.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './resource/users/users.module';
 import { JwtModule } from './jwt/jwt.module';
 import { RolesModule } from './resource/roles/roles.module';
 import { PermisosModule } from './resource/permisos/permisos.module';
-import { RoleSeeder } from './database/seeders/role.seeder';
 import { SeedModule } from './database/seeders/seeder.module';
 
 @Module({

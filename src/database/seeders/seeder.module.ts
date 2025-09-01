@@ -7,6 +7,7 @@ import { PermissionEntity } from '../core/permission.entity';
 import { UserEntity } from '../core/user.entity';
 import { SeederService } from './seeder.service';
 import { PermisosSeeder } from './permisos.seeder';
+import { UserSeeder } from './users.seeder';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { PermisosSeeder } from './permisos.seeder';
     providers: [
         RoleSeeder,
         PermisosSeeder,
+        UserSeeder,
         SeederService,
     ],
     exports: [SeederService],

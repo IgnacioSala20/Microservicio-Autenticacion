@@ -42,17 +42,6 @@ export class UsersService extends BaseService<UserEntity> {
       Object.assign(user, body);
       user.password = hashSync(user.password, 10);
 
-      //contar cuántos usuarios existen para ver que no hay ningunos
-      const totalUsuarios = await this.repository.count();
-      if (totalUsuarios === 0) {
-        //Si es el primer usuario que se va a crear, hay que modificar este where y poner el nombre del rol que se le quiere asignar
-        //de tal forma que el primer usuario sea un superadmin o el que fuese y a partir de ahi tiene todos los permisos
-        const rolSuperAdmin = await this.roleRepository.findOne({ where: { name: "Administrador" } });
-        if (!rolSuperAdmin) {
-          throw new BadRequestException('El rol buscado no existe');
-        }
-        user.role = rolSuperAdmin;
-      }
       await this.repository.save(user);
       return { status: 'created' };
     } catch (error) {
@@ -109,7 +98,7 @@ export class UsersService extends BaseService<UserEntity> {
     await this.repository.save(user);
 
     return {message: `Rol asignado correctamente a ${user.email}`,userId: user.id,nuevoRol: rol.name,};
-    }
+  }
   async cambiarContrasena(userId: number, contrasena: string) {
     const user = await this.repository.findOneBy({ id: userId });
     if (!user) {
