@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PermissionEntity } from '../core/permission.entity';
+import { PermissionEntity } from '../../core/permission.entity';
 
 @Injectable()
 export class PermisosSeeder {
@@ -18,12 +18,11 @@ export class PermisosSeeder {
         ];
 
         for (const permiso of permisos) {
-        const exists = await this.permisoRepo.findOne({ where: { codigo: permiso.codigo } });
-        if (!exists) {
-            await this.permisoRepo.save(permiso);
+            const exists = await this.permisoRepo.findOne({ where: { codigo: permiso.codigo } });
+            if (!exists) {
+                await this.permisoRepo.save(permiso);
+            }
         }
-        }
-
         console.log('Permisos seed completado');
     }
 }

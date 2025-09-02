@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RoleEntity } from '../core/roles.entity';
-import { PermissionEntity } from '../core/permission.entity';
+import { RoleEntity } from '../../core/roles.entity';
+import { PermissionEntity } from '../../core/permission.entity';
 
 @Injectable()
 export class RoleSeeder {
@@ -17,15 +17,15 @@ export class RoleSeeder {
         const permisos = await this.permisoRepo.find();
 
         const roles = [
-        { name: 'Superadmin', permissions: permisos },
+        { name: 'admin', permissions: permisos },
         ];
 
         for (const roleData of roles) {
-        const exists = await this.roleRepo.findOne({ where: { name: roleData.name } });
-        if (!exists) {
-            const role = this.roleRepo.create(roleData);
-            await this.roleRepo.save(role);
-        }
+            const exists = await this.roleRepo.findOne({ where: { name: roleData.name } });
+            if (!exists) {
+                const role = this.roleRepo.create(roleData);
+                await this.roleRepo.save(role);
+            }
         }
 
         console.log('Roles con permisos seed completado');
