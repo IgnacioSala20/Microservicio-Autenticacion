@@ -66,3 +66,10 @@ $ npm run migration:generate (opcional la ruta de destino ./src/database/migrati
 $ npm run migration:run (ruta del archivo migrado)
 
 ```
+
+## Para testeos unitarios(archivos .spec.ts)
+```bash
+$ npm run test -- resource/roles/roles.controller.spec.ts
+(Ruta a modo de ejemplo, pero iria lo que se quiera probar)
+
+```
