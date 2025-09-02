@@ -73,3 +73,10 @@ $ npm run test -- resource/roles/roles.controller.spec.ts
 (Ruta a modo de ejemplo, pero iria lo que se quiera probar)
 
 ```
+
+## Para realizar poblaciones a las BD, debemos rellenar con datos cada uno de los sedeers (permisos.seeder.ts, role.seeder.ts y users.seeder.ts) y luego ejecutamos
+
+```bash
+$ npm run seed
+```
+Esto directamente ejecuta el archivo seed.ts, el cual se conecta con el seeder.service que tiene los respectivos metodos.
