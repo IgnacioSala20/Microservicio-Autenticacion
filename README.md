@@ -56,6 +56,10 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+# unit test con archivo especifico 
+$ npm run test -- resource/roles/roles.controller.spec.ts 
+# ruta a modo de ejemplo, pero iria lo que se quiera probar
 ```
 
 
@@ -64,13 +68,6 @@ $ npm run test:cov
 $ npm run migration:generate (opcional la ruta de destino ./src/database/migrations/CreateUser)
 
 $ npm run migration:run (ruta del archivo migrado)
-
-```
-
-## Para testeos unitarios(archivos .spec.ts)
-```bash
-$ npm run test -- resource/roles/roles.controller.spec.ts
-(Ruta a modo de ejemplo, pero iria lo que se quiera probar)
 
 ```
 
