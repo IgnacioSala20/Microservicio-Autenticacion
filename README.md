@@ -67,7 +67,8 @@ $ npm run test -- resource/roles/roles.controller.spec.ts
 ```bash
 $ npm run migration:generate (opcional la ruta de destino ./src/database/migrations/CreateUser)
 
-$ npm run migration:run (ruta del archivo migrado)
+$ npm run migration:run
+# no hace falta especificar la ruta en este caso
 
 ```
 
